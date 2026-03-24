@@ -39,7 +39,7 @@ const isFormValid = computed(() => { for(const p of evaluatedPersons.value){for(
       isSubmitting.value=true;message.value='';
       const data = evaluatedPersons.value.map(p=>({evaluated_person:p.name,ticket_type:'B',...p.scores}))
       const { error } = await supabase.from('vote_records').insert(data)
-      if(error)throw error;message.value='A类评分提交成功！';messageType='success'
+      if(error)throw error;message.value='A类评分提交成功！';messageType.value='success'
       evaluatedPersons.value.forEach(p=>scoreItems.value.forEach(i=>p.scores[i.key]=0))
     }catch(e){message.value=`失败：${e.message}`;messageType='error';console.error(e)}
     finally{isSubmitting.value=false}
