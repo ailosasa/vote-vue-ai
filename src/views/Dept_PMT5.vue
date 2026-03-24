@@ -97,17 +97,17 @@ const calcManage = (name) => {
 }
 
 // =============================================
-// 🔥 核心：打开述职报告（在线预览）
+// 🔥 PDF原生在线预览（最终极简稳定版）
 // =============================================
-const openReport = (deptName, personName) => {
-  // 自动匹配部门文件夹名称
-  const deptFolder = 'PMT5_shuzhi'
-  // 拼接文件公网地址（部署后自动生效）
-  const fileUrl = `https://vote-vue-ai.vercel.app/data/${deptFolder}/2025年度工作述职报告（${personName}）.docx`
-  // 微软官方预览地址
-  const previewUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`
-  // 新标签页打开
-  window.open(previewUrl, '_blank')
+const openReport = (personName) => {
+  // 自动匹配部门文件夹
+  const deptFolder = `PMT5_shuzhi`
+
+  // 拼接PDF地址（public目录静态资源，浏览器原生预览）
+  const fileUrl = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告书（${personName}）.pdf`
+
+  // 新标签页直接打开PDF（浏览器原生支持，无任何第三方服务）
+  window.open(fileUrl, '_blank')
 }
 
 // 提交逻辑
