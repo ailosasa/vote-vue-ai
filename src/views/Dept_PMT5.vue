@@ -103,7 +103,7 @@ const openReport = (deptName, personName) => {
   // 自动匹配部门文件夹名称
   const deptFolder = 'PMT5_shuzhi'
   // 拼接文件公网地址（部署后自动生效）
-  const fileUrl = `https://raw.githubusercontent.com/ailosasa/vote-vue-ai/main/public/data/${deptFolder}/2025年度工作述职报告（${personName}）.docx`
+  const fileUrl = `https://vote-vue-ai.vercel.app/data/${deptFolder}/2025年度工作述职报告（${personName}）.docx`
   // 微软官方预览地址
   const previewUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(fileUrl)}`
   // 新标签页打开
