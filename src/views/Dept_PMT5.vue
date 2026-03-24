@@ -60,7 +60,7 @@
 import { ref, reactive } from 'vue'
 import { supabase } from '../utils/supabase'
 import { getClientIP } from '../utils/ip'
-import data from '../data/PMT6.json'
+import data from '../data/PMT5.json'
 
 const DEPT = data.deptName
 const techPersons = data.technicalStaff
