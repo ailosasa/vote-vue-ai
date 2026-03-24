@@ -108,18 +108,6 @@ const submitAll = async () => {
   const ip = await getClientIP()
 
   try {
-    // IP防重复提交
-    const {data: hasTech} = await supabase.from('tech_scores').select('*').eq('dept_name', DEPT).eq('ip', ip)
-    const {data: hasManage} = await supabase.from('manage_scores').select('*').eq('dept_name', DEPT).eq('ip', ip)
-    if (hasTech.length > 0 || hasManage.length > 0) throw new Error('当前IP已提交，不可重复提交')
-
-    // 强制校验总分100
-    techPersons.forEach(n => {
-      if (techTotal[n] !== 100) throw new Error(`${n} 技术人员总分必须=100`)
-    })
-    managePersons.forEach(n => {
-      if (manageTotal[n] !== 100) throw new Error(`${n} 管理人员总分必须=100`)
-    })
 
     // 批量提交至两张独立表
     const techData = techPersons.map(n => ({dept_name: DEPT, person_name: n, ...tech[n], total_score: 100, ip}))
