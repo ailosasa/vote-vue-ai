@@ -99,7 +99,7 @@ const calcManage = (name) => {
 // =============================================
 // 🔥 PDF原生在线预览（最终极简稳定版）
 // =============================================
-const openReport = (personName) => {
+const openReport = (dept,personName) => {
   // 自动匹配部门文件夹
   const deptFolder = `PMT5_shuzhi`
 

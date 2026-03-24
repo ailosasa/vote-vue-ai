@@ -2,10 +2,9 @@
   <div class="app-container">
     <h1>{{ data.deptName }} PMT6综合评价评分</h1>
     <div class="vote-form">
-      <!-- 修正提示语：匹配最新评分规则 -->
       <div class="form-tip">
-        ✅ 专业技术人员：4项 × 25分 = 总分100分 |
-        ✅ 一般管理人员：10项 × 10分 = 总分100分 |
+        ✅ 专业技术人员：每项 0-25 分 |
+        ✅ 一般管理人员：每项 0-10 分 |
         🚫 同一IP仅可提交1次
       </div>
 
@@ -13,7 +12,11 @@
       <div class="section">
         <h3>专业技术人员评分</h3>
         <div v-for="name in data.technicalStaff" :key="name" class="person-box">
-          <span>{{ name }}</span>
+          <!-- 姓名 + 预览按钮 -->
+          <div class="person-header">
+            <span>{{ name }}</span>
+            <button class="preview-btn" @click="openReport(DEPT, name)">查看述职报告</button>
+          </div>
           <div class="score-items">
             <div>职业道德<input v-model.number="tech[name].moral" @input="calcTech(name)" min="0" max="25"></div>
             <div>工作作风<input v-model.number="tech[name].work_style" @input="calcTech(name)" min="0" max="25"></div>
@@ -28,55 +31,49 @@
       <div class="section">
         <h3>一般管理人员评分</h3>
         <div v-for="name in data.managementStaff" :key="name" class="person-box">
-          <span>{{ name }}</span>
+          <!-- 姓名 + 预览按钮 -->
+          <div class="person-header">
+            <span>{{ name }}</span>
+            <button class="preview-btn" @click="openReport(DEPT, name)">查看述职报告</button>
+          </div>
           <div class="score-items grid-10">
             <div>政治能力<input v-model.number="manage[name].political_ability" @input="calcManage(name)" min="0" max="10"></div>
             <div>政治表现<input v-model.number="manage[name].political_performance" @input="calcManage(name)" min="0" max="10"></div>
             <div>党建责任<input v-model.number="manage[name].party_duty" @input="calcManage(name)" min="0" max="10"></div>
             <div>专业素养<input v-model.number="manage[name].professional" @input="calcManage(name)" min="0" max="10"></div>
-            <div>领导能力<input v-model.number="manage[name].leadership" @input="calcManage(name)" min="0" max="10">
-            </div>
-            <div>学习创新<input v-model.number="manage[name].innovation" @input="calcManage(name)" min="0" max="10">
-            </div>
-            <div>履职成效<input v-model.number="manage[name].performance" @input="calcManage(name)" min="0" max="10">
-            </div>
+            <div>领导能力<input v-model.number="manage[name].leadership" @input="calcManage(name)" min="0" max="10"></div>
+            <div>学习创新<input v-model.number="manage[name].innovation" @input="calcManage(name)" min="0" max="10"></div>
+            <div>履职成效<input v-model.number="manage[name].performance" @input="calcManage(name)" min="0" max="10"></div>
             <div>担当作为<input v-model.number="manage[name].act" @input="calcManage(name)" min="0" max="10"></div>
-            <div>作风形象<input v-model.number="manage[name].style_image" @input="calcManage(name)" min="0" max="10">
-            </div>
-            <div>廉洁从业<input v-model.number="manage[name].integrity_work" @input="calcManage(name)" min="0" max="10">
-            </div>
+            <div>作风形象<input v-model.number="manage[name].style_image" @input="calcManage(name)" min="0" max="10"></div>
+            <div>廉洁从业<input v-model.number="manage[name].integrity_work" @input="calcManage(name)" min="0" max="10"></div>
           </div>
           <div class="total">总分：{{ manageTotal[name] }}</div>
         </div>
       </div>
 
-      <button class="submit-btn" @click="submitAll" :disabled="submitting">{{
-          submitting ? '提交中...' : '提交全部评分'
-        }}
-      </button>
+      <button class="submit-btn" @click="submitAll" :disabled="submitting">{{ submitting ? '提交中...' : '提交全部评分' }}</button>
       <div v-if="msg" class="message" :class="type">{{ msg }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref, reactive} from 'vue'
-import {supabase} from '../utils/supabase'
-import {getClientIP} from '../utils/ip'
-// 从JSON文件读取人员数据
+import { ref, reactive } from 'vue'
+import { supabase } from '../utils/supabase'
+import { getClientIP } from '../utils/ip'
 import data from '../data/dept_PMT6.json'
 
 const DEPT = data.deptName
 const techPersons = data.technicalStaff
 const managePersons = data.managementStaff
 
-// 初始化技术人员评分
+// 初始化评分数据
 const tech = reactive({})
 const techTotal = reactive({})
-techPersons.forEach(n => tech[n] = {moral: 0, work_style: 0, responsibility: 0, integrity: 0})
+techPersons.forEach(n => tech[n] = { moral:0, work_style: 0, responsibility: 0, integrity: 0})
 techPersons.forEach(n => techTotal[n] = 0)
 
-// 初始化管理人员评分
 const manage = reactive({})
 const manageTotal = reactive({})
 managePersons.forEach(n => manage[n] = {
@@ -89,29 +86,54 @@ const submitting = ref(false)
 const msg = ref('')
 const type = ref('')
 
-// 计算技术人员总分
+// 计算总分（仅展示）
 const calcTech = (name) => {
   const s = tech[name]
   techTotal[name] = s.moral + s.work_style + s.responsibility + s.integrity
 }
-
-// 计算管理人员总分
 const calcManage = (name) => {
   const s = manage[name]
   manageTotal[name] = s.political_ability + s.political_performance + s.party_duty + s.professional + s.leadership + s.innovation + s.performance + s.act + s.style_image + s.integrity_work
 }
 
-// 提交逻辑（不变）
+// =============================================
+// 🔥 PDF原生在线预览（最终极简稳定版）
+// =============================================
+const openReport = (dept,personName) => {
+  // 自动匹配部门文件夹
+  const deptFolder = `PMT6_shuzhi`
+
+  // 拼接PDF地址（public目录静态资源，浏览器原生预览）
+  const fileUrl = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告书（${personName}）.pdf`
+
+  // 新标签页直接打开PDF（浏览器原生支持，无任何第三方服务）
+  window.open(fileUrl, '_blank')
+}
+
+// 提交逻辑
 const submitAll = async () => {
   submitting.value = true
   msg.value = ''
   const ip = await getClientIP()
 
   try {
+    const {data: hasTech} = await supabase.from('tech_scores').select('*').eq('dept_name', DEPT).eq('ip', ip)
+    const {data: hasManage} = await supabase.from('manage_scores').select('*').eq('dept_name', DEPT).eq('ip', ip)
+    if (hasTech.length > 0 || hasManage.length > 0) throw new Error('当前IP已提交，不可重复提交')
 
-    // 批量提交至两张独立表
-    const techData = techPersons.map(n => ({dept_name: DEPT, person_name: n, ...tech[n], total_score: 100, ip}))
-    const manageData = managePersons.map(n => ({dept_name: DEPT, person_name: n, ...manage[n], total_score: 100, ip}))
+    const techData = techPersons.map(n => ({
+      dept_name: DEPT,
+      person_name: n, ...tech[n],
+      total_score: techTotal[n],
+      ip
+    }))
+    const manageData = managePersons.map(n => ({
+      dept_name: DEPT,
+      person_name: n, ...manage[n],
+      total_score: manageTotal[n],
+      ip
+    }))
+
     await supabase.from('tech_scores').insert(techData)
     await supabase.from('manage_scores').insert(manageData)
 
@@ -156,6 +178,28 @@ const submitAll = async () => {
   background: white;
   border-radius: 6px;
   margin-bottom: 15px
+}
+
+/* 人员头部：姓名 + 按钮 */
+.person-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px
+}
+
+.preview-btn {
+  padding: 4px 10px;
+  background: #165DFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer
+}
+
+.preview-btn:hover {
+  background: #0E42D2
 }
 
 .score-items {
