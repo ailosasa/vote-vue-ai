@@ -41,7 +41,7 @@ const isFormValid = computed(() => { for(const p of evaluatedPersons.value){for(
       const { error } = await supabase.from('vote_records').insert(data)
       if(error)throw error;message.value='A类评分提交成功！';messageType.value='success'
       evaluatedPersons.value.forEach(p=>scoreItems.value.forEach(i=>p.scores[i.key]=0))
-    }catch(e){message.value=`失败：${e.message}`;messageType='error';console.error(e)}
+    }catch(e){message.value=`失败：${e.message}`;messageType.value='error';console.error(e)}
     finally{isSubmitting.value=false}
   }
 </script>
