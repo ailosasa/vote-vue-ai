@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>A类人员综合评分</h1>
+    <h1>人员综合评分A类票</h1>
     <div class="vote-form">
       <div class="form-tip">票面类型：A | 打分范围：0-10分</div>
       <!-- 评分区域（和之前完全一致） -->
