@@ -1,11 +1,29 @@
 <template>
   <div class="app-container">
-    <h1>{{ data.deptName }}综合评价评分</h1>
+    <h1>{{ data.deptName }} 综合评价评分</h1>
     <div class="vote-form">
       <div class="form-tip">
         ✅ 专业技术人员：每项 0-25 分 |
         ✅ 一般管理人员：每项 0-10 分 |
         🚫 同一IP仅可提交1次
+      </div>
+
+      <!-- 专业技术人员 -->
+      <div class="section">
+        <h3>专业技术人员评分</h3>
+        <div v-for="name in data.technicalStaff" :key="name" class="person-box">
+          <div class="person-header">
+            <span>{{ name }}</span>
+            <button class="preview-btn" @click="openReport(name)">查看述职报告</button>
+          </div>
+          <div class="score-items">
+            <div>职业道德<input v-model.number="tech[name].moral" @input="handleTechInput(name, 'moral')" min="0" max="25"></div>
+            <div>工作作风<input v-model.number="tech[name].work_style" @input="handleTechInput(name, 'work_style')" min="0" max="25"></div>
+            <div>担当作为<input v-model.number="tech[name].responsibility" @input="handleTechInput(name, 'responsibility')" min="0" max="25"></div>
+            <div>廉洁自律<input v-model.number="tech[name].integrity" @input="handleTechInput(name, 'integrity')" min="0" max="25"></div>
+          </div>
+          <div class="total">总分：{{ techTotal[name] }}</div>
+        </div>
       </div>
 
       <!-- 一般管理人员 -->
@@ -84,6 +102,15 @@ const msg = ref('')
 const type = ref('')
 
 // =============================================
+// 🔥 核心：技术人员分数自动校验（0-25分）
+// =============================================
+const handleTechInput = (name, field) => {
+  // 限制分数范围：0 ≤ 分数 ≤25
+  tech[name][field] = Math.max(0, Math.min(25, tech[name][field] || 0))
+  calcTech(name)
+}
+
+// =============================================
 // 🔥 核心：管理人员分数自动校验（0-10分）
 // =============================================
 const handleManageInput = (name, field) => {
@@ -144,6 +171,12 @@ const submitAll = async () => {
     // =============================================
     // 🔥 核心新增：禁止任何人员打满分（总分=100 阻止提交）
     // =============================================
+    // 检查专业技术人员
+    for (const n of techPersons) {
+      if (techTotal[n] === 100) {
+        throw new Error(`提交失败：【${n}】不能打满分（总分100分），请调整分数！`)
+      }
+    }
     // 检查一般管理人员
     for (const n of managePersons) {
       if (manageTotal[n] === 100) {
@@ -152,12 +185,20 @@ const submitAll = async () => {
     }
 
     // 2. 批量提交至两张独立表（保留）
+    const techData = techPersons.map(n => ({
+      dept_name: DEPT,
+      person_name: n, ...tech[n],
+      total_score: techTotal[n],
+      ip
+    }))
     const manageData = managePersons.map(n => ({
       dept_name: DEPT,
       person_name: n, ...manage[n],
       total_score: manageTotal[n],
       ip
     }))
+
+    await supabase.from('tech_scores').insert(techData)
     await supabase.from('manage_scores').insert(manageData)
 
     msg.value = '提交成功！'
