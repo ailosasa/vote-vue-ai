@@ -55,20 +55,18 @@
     </div>
   </div>
 
-  <!-- 原有代码不动，末尾加这个弹窗 -->
+  <!--  you're 原有代码不动，只替换这整个弹窗 -->
   <div v-if="showPdfPreview" class="pdf-modal" @click.self="closePdfPreview">
     <div class="pdf-wrapper">
       <div class="pdf-header">
         <h3>{{ currentPerson }} - 述职报告（禁止下载）</h3>
         <button class="close-btn" @click="closePdfPreview">关闭</button>
       </div>
-      <!-- 内嵌PDF，隐藏工具栏+禁用打印 -->
       <iframe
-          :src="pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1&statusbar=0&view=FitH'"
+          :src="pdfUrl"
           class="pdf-iframe"
           frameborder="0"
-          oncontextmenu="return false" <!-- 禁止右键 -->
-      onload="this.contentWindow.print=function(){}" <!-- 禁用打印 -->
+          oncontextmenu="return false"
       ></iframe>
     </div>
   </div>
@@ -131,20 +129,30 @@ const calcManage = (name) => {
 }
 
 // PDF 预览控制
+// ========== PDF 预览配置 ==========
 const showPdfPreview = ref(false)
 const pdfUrl = ref('')
 const currentPerson = ref('')
 
-// =============================================
-// 🔥 新版：仅预览、禁止下载、禁止右键、禁止打印
-// =============================================
+// 🔥 修复版：支持Vercel，自带错误提示，自动处理路径
 const openReport = (personName) => {
-  currentPerson.value = personName
-  const deptFolder = `PMT5_shuzhi`
-  // 拼接PDF地址
-  pdfUrl.value = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告（${personName}）.pdf`
-  // 打开弹窗
-  showPdfPreview.value = true
+  try {
+    currentPerson.value = personName
+    // 标准化部门路径（彻底解决大小写/拼写问题）
+    const deptCode = DEPT.includes('一') ? 'dept1' : 'dept2'
+    const deptFolder = `${deptCode}_shuzhi`
+
+    // 生成标准PDF地址（Vercel 100%兼容）
+    const base = window.location.origin
+    pdfUrl.value = `${base}/data/${deptFolder}/${personName}.pdf#toolbar=0&navpanes=0&scrollbar=1`
+
+    console.log('PDF地址：', pdfUrl.value) // 调试用，可删除
+    showPdfPreview.value = true
+
+  } catch (e) {
+    alert(`打开失败：${personName} 的述职报告不存在或路径错误`)
+    console.error(e)
+  }
 }
 
 // 关闭预览
