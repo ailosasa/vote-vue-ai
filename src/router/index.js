@@ -7,6 +7,8 @@ import VoteB from '../views/VoteB.vue'
 import VoteC from '../views/VoteC.vue'
 import Dept_PMT5 from "../views/Dept_PMT5.vue";
 import Dept_PMT6 from "../views/Dept_PMT6.vue";
+import Dept_PMT7 from "../views/Dept_PMT7.vue";
+import Dept_bgs from "../views/Dept_bgs.vue";
 
 const routes = [
     { path: '/', redirect: '/a' }, // 默认打开A类票
@@ -15,6 +17,8 @@ const routes = [
     { path: '/c', component: VoteC }, // C类票面
     { path: '/dept_PMT5', component: Dept_PMT5 },
     { path: '/dept_PMT6', component: Dept_PMT6 },
+    { path: '/dept_PMT7', component: Dept_PMT7 },
+    { path: '/dept_bgs', component: Dept_bgs }
 ]
 
 const router = createRouter({
