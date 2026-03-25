@@ -55,19 +55,20 @@
     </div>
   </div>
 
-  <!--  you're 原有代码不动，只替换这整个弹窗 -->
+  <!-- 双端兼容 PDF 预览弹窗 -->
   <div v-if="showPdfPreview" class="pdf-modal" @click.self="closePdfPreview">
     <div class="pdf-wrapper">
       <div class="pdf-header">
-        <h3>{{ currentPerson }} - 述职报告（禁止下载）</h3>
+        <h3>{{ currentPerson }} - 述职报告</h3>
         <button class="close-btn" @click="closePdfPreview">关闭</button>
       </div>
+      <!-- 移动端兼容核心：简化参数，自动适配 -->
       <iframe
           :src="pdfUrl"
           class="pdf-iframe"
           frameborder="0"
-          oncontextmenu="return false"
-      ></iframe>
+          oncontextmenu="return false">
+      </iframe>
     </div>
   </div>
 </template>
@@ -354,9 +355,13 @@ input {
   cursor: pointer;
 }
 
+/* 🔥 移动端核心适配：自动缩放、满屏 */
 .pdf-iframe {
   flex: 1;
   width: 100%;
+  height: 100%;
   border: none;
+  transform: scale(1);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
-</style>
