@@ -153,14 +153,30 @@ const closePdfPreview = () => {
   pdfUrl.value = ''
 }
 
-// 提交逻辑
+// 提交逻辑（新增：禁止任何人员打满分 100分）
 const submitAll = async () => {
   submitting.value = true
   msg.value = ''
   const ip = await getClientIP()
 
   try {
+    // =============================================
+    // 🔥 核心新增：禁止任何人员打满分（总分=100 阻止提交）
+    // =============================================
+    // 检查专业技术人员
+    for (const n of techPersons) {
+      if (techTotal[n] === 100) {
+        throw new Error(`提交失败：【${n}】不能打满分（总分100分），请调整分数！`)
+      }
+    }
+    // 检查一般管理人员
+    for (const n of managePersons) {
+      if (manageTotal[n] === 100) {
+        throw new Error(`提交失败：【${n}】不能打满分（总分100分），请调整分数！`)
+      }
+    }
 
+    // 2. 批量提交至两张独立表（保留）
     const techData = techPersons.map(n => ({ dept_name: DEPT, person_name: n, ...tech[n], total_score: techTotal[n], ip }))
     const manageData = managePersons.map(n => ({ dept_name: DEPT, person_name: n, ...manage[n], total_score: manageTotal[n], ip }))
 
