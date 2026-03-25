@@ -140,9 +140,9 @@ const currentPerson = ref('')
 // =============================================
 const openReport = (personName) => {
   currentPerson.value = personName
-  const deptFolder = `$PMT5_shuzhi`
+  const deptFolder = `PMT5_shuzhi`
   // 拼接PDF地址
-  pdfUrl.value = `${window.location.origin}/data/${deptFolder}/${personName}.pdf`
+  pdfUrl.value = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告（${personName}）.pdf`
   // 打开弹窗
   showPdfPreview.value = true
 }
