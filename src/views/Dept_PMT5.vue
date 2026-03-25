@@ -130,9 +130,6 @@ const calcManage = (name) => {
   manageTotal[name] = s.political_ability + s.political_performance + s.party_duty + s.professional + s.leadership + s.innovation + s.performance + s.act + s.style_image + s.integrity_work
 }
 
-// PDF述职报告预览
-import { ref } from 'vue' // 如果你已经引了就不用重复引
-
 // PDF 预览控制
 const showPdfPreview = ref(false)
 const pdfUrl = ref('')
