@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>{{ data.deptName }} 综合评价评分</h1>
+    <h1>{{ data.deptName }} PMT5综合评价评分</h1>
     <div class="vote-form">
       <div class="form-tip">
         ✅ 专业技术人员：每项 0-25 分 |
