@@ -54,6 +54,24 @@
       <div v-if="msg" class="message" :class="type">{{ msg }}</div>
     </div>
   </div>
+
+  <!-- 原有代码不动，末尾加这个弹窗 -->
+  <div v-if="showPdfPreview" class="pdf-modal" @click.self="closePdfPreview">
+    <div class="pdf-wrapper">
+      <div class="pdf-header">
+        <h3>{{ currentPerson }} - 述职报告（禁止下载）</h3>
+        <button class="close-btn" @click="closePdfPreview">关闭</button>
+      </div>
+      <!-- 内嵌PDF，隐藏工具栏+禁用打印 -->
+      <iframe
+          :src="pdfUrl + '#toolbar=0&navpanes=0&scrollbar=1&statusbar=0&view=FitH'"
+          class="pdf-iframe"
+          frameborder="0"
+          oncontextmenu="return false" <!-- 禁止右键 -->
+      onload="this.contentWindow.print=function(){}" <!-- 禁用打印 -->
+      ></iframe>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -113,10 +131,29 @@ const calcManage = (name) => {
 }
 
 // PDF述职报告预览
+import { ref } from 'vue' // 如果你已经引了就不用重复引
+
+// PDF 预览控制
+const showPdfPreview = ref(false)
+const pdfUrl = ref('')
+const currentPerson = ref('')
+
+// =============================================
+// 🔥 新版：仅预览、禁止下载、禁止右键、禁止打印
+// =============================================
 const openReport = (personName) => {
-  const deptFolder = `PMT5_shuzhi`
-  const fileUrl = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告（${personName}）.pdf`
-  window.open(fileUrl, '_blank')
+  currentPerson.value = personName
+  const deptFolder = `$PMT5_shuzhi`
+  // 拼接PDF地址
+  pdfUrl.value = `${window.location.origin}/data/${deptFolder}/${personName}.pdf`
+  // 打开弹窗
+  showPdfPreview.value = true
+}
+
+// 关闭预览
+const closePdfPreview = () => {
+  showPdfPreview.value = false
+  pdfUrl.value = ''
 }
 
 // 提交逻辑
@@ -161,4 +198,47 @@ input{width:70px;padding:4px;margin-left:5px}
 .message{padding:12px;margin-top:15px;text-align:center}
 .success{background:#dcfce7}
 .error{background:#fee2e2}
+/* PDF 防下载预览弹窗 */
+.pdf-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+.pdf-wrapper {
+  width: 90%;
+  height: 90%;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pdf-header {
+  padding: 12px 20px;
+  background: #2563eb;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.close-btn {
+  background: #fff;
+  color: #2563eb;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.pdf-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
 </style>
