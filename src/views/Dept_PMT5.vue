@@ -115,7 +115,7 @@ const calcManage = (name) => {
 // PDF述职报告预览
 const openReport = (personName) => {
   const deptFolder = `PMT5_shuzhi`
-  const fileUrl = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告书（${personName}）.pdf`
+  const fileUrl = `${window.location.origin}/data/${deptFolder}/2025年度工作述职报告（${personName}）.pdf`
   window.open(fileUrl, '_blank')
 }
 
