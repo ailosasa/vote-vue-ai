@@ -144,7 +144,7 @@ const openReport = (personName) => {
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
-    pdfUrl.value = `${base}/data/${deptFolder}/${personName}.pdf#toolbar=0&navpanes=0&scrollbar=1`
+    pdfUrl.value = `${base}/data/${deptFolder}/2025年度工作述职报告（${personName}）.pdf#toolbar=0&navpanes=0&scrollbar=1`
 
     console.log('PDF地址：', pdfUrl.value) // 调试用，可删除
     showPdfPreview.value = true
