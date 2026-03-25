@@ -139,8 +139,7 @@ const openReport = (personName) => {
   try {
     currentPerson.value = personName
     // 标准化部门路径（彻底解决大小写/拼写问题）
-    const deptCode = DEPT.includes('一') ? 'dept1' : 'dept2'
-    const deptFolder = `${deptCode}_shuzhi`
+    const deptFolder = `$PMT5_shuzhi`
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
