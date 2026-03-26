@@ -59,7 +59,7 @@
 import { ref, reactive } from 'vue'
 import { supabase } from '../utils/supabase'
 import { getClientIP } from '../utils/ip'
-import data from '../data/bjiwei.json'
+import data from '../data/jiwei.json'
 
 const DEPT = data.deptName
 const techPersons = data.technicalStaff
@@ -110,7 +110,7 @@ const openReport = (personName) => {
   try {
     currentPerson.value = personName
     // 标准化部门路径（彻底解决大小写/拼写问题）
-    const deptFolder = `bjiwei_shuzhi`
+    const deptFolder = `jiwei_shuzhi`
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
