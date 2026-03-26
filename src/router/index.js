@@ -10,7 +10,7 @@ import Dept_PMT2 from "../views/Dept_PMT2.vue";
 import Dept_PMT3 from "../views/Dept_PMT3.vue";
 import Dept_PMT4 from "../views/Dept_PMT4.vue";
 import Dept_PMT5 from "../views/Dept_PMT5.vue";
-import Dept_PMT6 from "../views/Dept_PMT6.vue";
+// import Dept_PMT6 from "../views/Dept_PMT6.vue";
 import Dept_PMT7 from "../views/Dept_PMT7.vue";
 import Dept_HSE from "../views/Dept_HSE.vue";
 import Dept_bgs from "../views/Dept_bgs.vue";
@@ -36,7 +36,7 @@ const routes = [
     { path: '/dept_PMT3', component: Dept_PMT3 },
     { path: '/dept_PMT4', component: Dept_PMT4 },
     { path: '/dept_PMT5', component: Dept_PMT5 },
-    { path: '/dept_PMT6', component: Dept_PMT6 },
+    // { path: '/dept_PMT6', component: Dept_PMT6 },
     { path: '/dept_PMT7', component: Dept_PMT7 },
     { path: '/dept_HSE', component: Dept_HSE },
     { path: '/dept_bgs', component: Dept_bgs },
