@@ -162,7 +162,7 @@ const submitAll = async () => {
   } catch (err) {
     msg.value = err.message
     type.value = 'error'
-  } finally {
+  } finally { 
     submitting.value = false
   }
 }
