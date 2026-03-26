@@ -12,7 +12,19 @@ import Dept_PMT4 from "../views/Dept_PMT4.vue";
 import Dept_PMT5 from "../views/Dept_PMT5.vue";
 import Dept_PMT6 from "../views/Dept_PMT6.vue";
 import Dept_PMT7 from "../views/Dept_PMT7.vue";
+import Dept_HSE from "../views/Dept_HSE.vue";
 import Dept_bgs from "../views/Dept_bgs.vue";
+import Dept_cg from "../views/Dept_cg.vue";
+import Dept_cw from "../views/Dept_cw.vue";
+import Dept_gc from "../views/Dept_gc.vue";
+import Dept_jdy from "../views/Dept_jdy.vue";
+import Dept_jw from "../views/Dept_jw.vue";
+import Dept_kz from "../views/Dept_kz.vue";
+import Dept_rl from "../views/Dept_rl.vue";
+import Dept_sc from "../views/Dept_sc.vue";
+import Dept_sj from "../views/Dept_sj.vue";
+import Dept_zh from "../views/Dept_zh.vue";
+import Dept_zl from "../views/Dept_zl.vue";
 
 const routes = [
     { path: '/', redirect: '/a' }, // 默认打开A类票
@@ -26,7 +38,19 @@ const routes = [
     { path: '/dept_PMT5', component: Dept_PMT5 },
     { path: '/dept_PMT6', component: Dept_PMT6 },
     { path: '/dept_PMT7', component: Dept_PMT7 },
-    { path: '/dept_bgs', component: Dept_bgs }
+    { path: '/dept_HSE', component: Dept_HSE },
+    { path: '/dept_bgs', component: Dept_bgs },
+    { path: '/dept_cg', component: Dept_cg },
+    { path: '/dept_cw', component: Dept_cw },
+    { path: '/dept_gc', component: Dept_gc },
+    { path: '/dept_jdy', component: Dept_jdy },
+    { path: '/dept_jw', component: Dept_jw },
+    { path: '/dept_kz', component: Dept_kz },
+    { path: '/dept_rl', component: Dept_rl },
+    { path: '/dept_sc', component: Dept_sc },
+    { path: '/dept_sj', component: Dept_sj },
+    { path: '/dept_zh', component: Dept_zh },
+    { path: '/dept_zl', component: Dept_zl }
 ]
 
 const router = createRouter({
