@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // 导入3个投票页面
 import VoteA from '../views/VoteA.vue'
-import VoteB from '../views/VoteB.vue'
-import VoteC from '../views/VoteC.vue'
+//import VoteB from '../views/VoteB.vue'
+//import VoteC from '../views/VoteC.vue'
 import Dept_PMT1 from "../views/Dept_PMT1.vue";
 import Dept_PMT2 from "../views/Dept_PMT2.vue";
 import Dept_PMT3 from "../views/Dept_PMT3.vue";
@@ -25,12 +25,13 @@ import Dept_sc from "../views/Dept_sc.vue";
 import Dept_sj from "../views/Dept_sj.vue";
 import Dept_zh from "../views/Dept_zh.vue";
 import Dept_zl from "../views/Dept_zl.vue";
+import Dept_yja from "../views/yeji_A.vue";
 
 const routes = [
     { path: '/', redirect: '/a' }, // 默认打开A类票
     { path: '/a', component: VoteA }, // A类票面
-    { path: '/b', component: VoteB }, // B类票面
-    { path: '/c', component: VoteC }, // C类票面
+    //{ path: '/b', component: VoteB }, // B类票面
+    //{ path: '/c', component: VoteC }, // C类票面
     { path: '/dept_PMT1', component: Dept_PMT1 },
     { path: '/dept_PMT2', component: Dept_PMT2 },
     { path: '/dept_PMT3', component: Dept_PMT3 },
@@ -50,7 +51,8 @@ const routes = [
     { path: '/dept_sc', component: Dept_sc },
     { path: '/dept_sj', component: Dept_sj },
     { path: '/dept_zh', component: Dept_zh },
-    { path: '/dept_zl', component: Dept_zl }
+    { path: '/dept_zl', component: Dept_zl },
+    { path: '/dept_yja', component: Dept_yja }
 ]
 
 const router = createRouter({
