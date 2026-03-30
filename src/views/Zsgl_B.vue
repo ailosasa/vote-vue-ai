@@ -1,11 +1,34 @@
 <template>
   <div class="app-container">
-    <h1>资深、一级高级、一级主管</h1>
+    <h1>管理和部分技术人员</h1>
     <h1>综合考核评价票（B）</h1>
     <div class="vote-form">
       <div class="form-tip">
         ✅ 一般管理人员：每项 0-10 分 |
         🚫 同一IP仅可提交1次
+      </div>
+
+      <!-- 资深管理人员 -->
+      <div class="section">
+        <div v-for="name in data1.managementStaff" :key="name" class="person-box">
+          <div class="person-header">
+            <span>{{ name }}</span>
+            <button class="preview-btn" @click="openReport(name)">查看述职报告</button>
+          </div>
+          <div class="score-items grid-10">
+            <div>政治能力<input v-model.number="tech[name].political_ability" @input="handleTechInput(name, 'political_ability')" min="0" max="10"></div>
+            <div>政治表现<input v-model.number="tech[name].political_performance" @input="handleTechInput(name, 'political_performance')" min="0" max="10"></div>
+            <div>党建责任<input v-model.number="tech[name].party_duty" @input="handleTechInput(name, 'party_duty')" min="0" max="10"></div>
+            <div>专业素养<input v-model.number="tech[name].professional" @input="handleTechInput(name, 'professional')" min="0" max="10"></div>
+            <div>领导能力<input v-model.number="tech[name].leadership" @input="handleTechInput(name, 'leadership')" min="0" max="10"></div>
+            <div>学习创新<input v-model.number="tech[name].innovation" @input="handleTechInput(name, 'innovation')" min="0" max="10"></div>
+            <div>履职成效<input v-model.number="tech[name].performance" @input="handleTechInput(name, 'performance')" min="0" max="10"></div>
+            <div>担当作为<input v-model.number="tech[name].act" @input="handleTechInput(name, 'act')" min="0" max="10"></div>
+            <div>作风形象<input v-model.number="tech[name].style_image" @input="handleTechInput(name, 'style_image')" min="0" max="10"></div>
+            <div>廉洁从业<input v-model.number="tech[name].integrity_work" @input="handleTechInput(name, 'integrity_work')" min="0" max="10"></div>
+          </div>
+          <div class="total">总分：{{ techTotal[name] }}</div>
+        </div>
       </div>
 
       <!-- 一般管理人员 -->
@@ -17,21 +40,33 @@
           </div>
           <div class="score-items grid-10">
             <div>政治能力<input v-model.number="manage[name].political_ability" @input="handleManageInput(name, 'political_ability')" min="0" max="10"></div>
-            <div>政治表现<input v-model.number="manage[name].political_performance" @input="handleManageInput(name, 'political_performance')" min="0" max="10"></div>
-            <div>党建责任<input v-model.number="manage[name].party_duty" @input="handleManageInput(name, 'party_duty')" min="0" max="10"></div>
-            <div>专业素养<input v-model.number="manage[name].professional" @input="handleManageInput(name, 'professional')" min="0" max="10"></div>
-            <div>领导能力<input v-model.number="manage[name].leadership" @input="handleManageInput(name, 'leadership')" min="0" max="10"></div>
-            <div>学习创新<input v-model.number="manage[name].innovation" @input="handleManageInput(name, 'innovation')" min="0" max="10"></div>
-            <div>履职成效<input v-model.number="manage[name].performance" @input="handleManageInput(name, 'performance')" min="0" max="10"></div>
-            <div>担当作为<input v-model.number="manage[name].act" @input="handleManageInput(name, 'act')" min="0" max="10"></div>
-            <div>作风形象<input v-model.number="manage[name].style_image" @input="handleManageInput(name, 'style_image')" min="0" max="10"></div>
-            <div>廉洁从业<input v-model.number="manage[name].integrity_work" @input="handleManageInput(name, 'integrity_work')" min="0" max="10"></div>
+            <div>政治表现<input v-model.number="manage[name].political_performance"
+                                @input="handleManageInput(name, 'political_performance')" min="0" max="10"></div>
+            <div>党建责任<input v-model.number="manage[name].party_duty" @input="handleManageInput(name, 'party_duty')"
+                                min="0" max="10"></div>
+            <div>专业素养<input v-model.number="manage[name].professional"
+                                @input="handleManageInput(name, 'professional')" min="0" max="10"></div>
+            <div>领导能力<input v-model.number="manage[name].leadership" @input="handleManageInput(name, 'leadership')"
+                                min="0" max="10"></div>
+            <div>学习创新<input v-model.number="manage[name].innovation" @input="handleManageInput(name, 'innovation')"
+                                min="0" max="10"></div>
+            <div>履职成效<input v-model.number="manage[name].performance"
+                                @input="handleManageInput(name, 'performance')" min="0" max="10"></div>
+            <div>担当作为<input v-model.number="manage[name].act" @input="handleManageInput(name, 'act')" min="0"
+                                max="10"></div>
+            <div>作风形象<input v-model.number="manage[name].style_image"
+                                @input="handleManageInput(name, 'style_image')" min="0" max="10"></div>
+            <div>廉洁从业<input v-model.number="manage[name].integrity_work"
+                                @input="handleManageInput(name, 'integrity_work')" min="0" max="10"></div>
           </div>
           <div class="total">总分：{{ manageTotal[name] }}</div>
         </div>
       </div>
 
-      <button class="submit-btn" @click="submitAll" :disabled="submitting">{{ submitting ? '提交中...' : '提交全部评分' }}</button>
+      <button class="submit-btn" @click="submitAll" :disabled="submitting">{{
+          submitting ? '提交中...' : '提交全部评分'
+        }}
+      </button>
       <div v-if="msg" class="message" :class="type">{{ msg }}</div>
     </div>
   </div>
@@ -55,23 +90,32 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { supabase } from '../utils/supabase'
-import { getClientIP } from '../utils/ip'
-import data from '../data/zszg_B.json'
+import {ref, reactive} from 'vue'
+import {supabase} from '../utils/supabase'
+import {getClientIP} from '../utils/ip'
+import data from '../data/ybzg_B.json'
+import data1 from '../data/zszg_B.json'
 import filedict from '../../public/file_path.json'
 
 const DEPT = data.deptName
-const techPersons = data.technicalStaff
+const techPersons = data1.managementStaff
 const managePersons = data.managementStaff
 
 // 初始化评分数据
 
+const tech = reactive({})
+const techTotal = reactive({})
+techPersons.forEach(n => tech[n] = {
+  political_ability: 0, political_performance: 0, party_duty: 0, professional: 0, leadership: 0,
+  innovation: 0, performance: 0, act: 0, style_image: 0, integrity_work: 0
+})
+techPersons.forEach(n => techTotal[n] = 0)
+
 const manage = reactive({})
 const manageTotal = reactive({})
 managePersons.forEach(n => manage[n] = {
-  political_ability:0, political_performance:0, party_duty:0, professional:0, leadership:0,
-  innovation:0, performance:0, act:0, style_image:0, integrity_work:0
+  political_ability: 0, political_performance: 0, party_duty: 0, professional: 0, leadership: 0,
+  innovation: 0, performance: 0, act: 0, style_image: 0, integrity_work: 0
 })
 managePersons.forEach(n => manageTotal[n] = 0)
 
@@ -83,6 +127,12 @@ const type = ref('')
 // =============================================
 // 🔥 核心：管理人员分数自动校验（0-10分）
 // =============================================
+const handleTechInput = (name, field) => {
+  // 限制分数范围：0 ≤ 分数 ≤10
+  tech[name][field] = Math.max(0, Math.min(10, tech[name][field] || 0))
+  calcTech(name)
+}
+
 const handleManageInput = (name, field) => {
   // 限制分数范围：0 ≤ 分数 ≤10
   manage[name][field] = Math.max(0, Math.min(10, manage[name][field] || 0))
@@ -90,6 +140,11 @@ const handleManageInput = (name, field) => {
 }
 
 // 计算总分（仅展示）
+const calcTech = (name) => {
+  const s = tech[name]
+  techTotal[name] = s.political_ability + s.political_performance + s.party_duty + s.professional + s.leadership + s.innovation + s.performance + s.act + s.style_image + s.integrity_work
+}
+
 const calcManage = (name) => {
   const s = manage[name]
   manageTotal[name] = s.political_ability + s.political_performance + s.party_duty + s.professional + s.leadership + s.innovation + s.performance + s.act + s.style_image + s.integrity_work
@@ -147,21 +202,34 @@ const submitAll = async () => {
       }
     }
 
+    for (const n of techPersons) {
+      if (techTotal[n] === 100) {
+        throw new Error(`提交失败：【${n}】不能打满分（总分100分），请调整分数！`)
+      }
+    }
+
     // 2. 批量提交至两张独立表（保留）
+    const techData = techPersons.map(n => ({
+      dept_name: DEPT,
+      person_name: n, ...tech[n],
+      total_score: techTotal[n],
+      ip
+    }))
     const manageData = managePersons.map(n => ({
       dept_name: DEPT,
       person_name: n, ...manage[n],
       total_score: manageTotal[n],
       ip
     }))
-    await supabase.from('zsgl_b_scores').insert(manageData)
+    await supabase.from('zsgl_b_scores').insert(techData)
+    await supabase.from('ybgl_b_scores').insert(manageData)
 
     msg.value = '提交成功！'
     type.value = 'success'
   } catch (err) {
     msg.value = err.message
     type.value = 'error'
-  } finally { 
+  } finally {
     submitting.value = false
   }
 }

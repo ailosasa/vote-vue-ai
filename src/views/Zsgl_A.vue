@@ -221,8 +221,8 @@ const submitAll = async () => {
       total_score: manageTotal[n],
       ip
     }))
-    await supabase.from('ybgl_a_scores').insert(techData)
-    await supabase.from('zsgl_a_scores').insert(manageData)
+    await supabase.from('zsgl_a_scores').insert(techData)
+    await supabase.from('ybgl_a_scores').insert(manageData)
 
     msg.value = '提交成功！'
     type.value = 'success'
