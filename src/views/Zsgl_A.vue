@@ -98,7 +98,7 @@ import data1 from '../data/zszg_A.json'
 import filedict from '../../public/file_path.json'
 
 const DEPT = data.deptName
-const techPersons = data.technicalStaff
+const techPersons = data1.managementStaff
 const managePersons = data.managementStaff
 
 // 初始化评分数据
