@@ -1,27 +1,33 @@
 <template>
   <div class="app-container">
-    <h1>一二三级工程师</h1>
-    <h1>业绩考核</h1>
+    <h1>一般管理和技术人员</h1>
+    <h1>综合考核评价票（A）</h1>
     <div class="vote-form">
       <div class="form-tip">
-        ✅ 专业技术人员：每项 0-25 分 |
+        ✅ 一般管理人员：每项 0-10 分 |
         🚫 同一IP仅可提交1次
       </div>
 
-      <!-- 专业技术人员 -->
+      <!-- 一般管理人员 -->
       <div class="section">
-        <div v-for="name in data.technicalStaff" :key="name" class="person-box">
+        <div v-for="name in data.managementStaff" :key="name" class="person-box">
           <div class="person-header">
             <span>{{ name }}</span>
             <button class="preview-btn" @click="openReport(name)">查看述职报告</button>
           </div>
-          <div class="score-items">
-            <div>创新引领<input v-model.number="tech[name].moral" @input="handleTechInput(name, 'moral')" min="0" max="25"></div>
-            <div>业务把关<input v-model.number="tech[name].work_style" @input="handleTechInput(name, 'work_style')" min="0" max="25"></div>
-            <div>智囊参谋<input v-model.number="tech[name].responsibility" @input="handleTechInput(name, 'responsibility')" min="0" max="25"></div>
-            <div>人才培养<input v-model.number="tech[name].integrity" @input="handleTechInput(name, 'integrity')" min="0" max="25"></div>
+          <div class="score-items grid-10">
+            <div>政治能力<input v-model.number="manage[name].political_ability" @input="handleManageInput(name, 'political_ability')" min="0" max="10"></div>
+            <div>政治表现<input v-model.number="manage[name].political_performance" @input="handleManageInput(name, 'political_performance')" min="0" max="10"></div>
+            <div>党建责任<input v-model.number="manage[name].party_duty" @input="handleManageInput(name, 'party_duty')" min="0" max="10"></div>
+            <div>专业素养<input v-model.number="manage[name].professional" @input="handleManageInput(name, 'professional')" min="0" max="10"></div>
+            <div>领导能力<input v-model.number="manage[name].leadership" @input="handleManageInput(name, 'leadership')" min="0" max="10"></div>
+            <div>学习创新<input v-model.number="manage[name].innovation" @input="handleManageInput(name, 'innovation')" min="0" max="10"></div>
+            <div>履职成效<input v-model.number="manage[name].performance" @input="handleManageInput(name, 'performance')" min="0" max="10"></div>
+            <div>担当作为<input v-model.number="manage[name].act" @input="handleManageInput(name, 'act')" min="0" max="10"></div>
+            <div>作风形象<input v-model.number="manage[name].style_image" @input="handleManageInput(name, 'style_image')" min="0" max="10"></div>
+            <div>廉洁从业<input v-model.number="manage[name].integrity_work" @input="handleManageInput(name, 'integrity_work')" min="0" max="10"></div>
           </div>
-          <div class="total">总分：{{ techTotal[name] }}</div>
+          <div class="total">总分：{{ manageTotal[name] }}</div>
         </div>
       </div>
 
@@ -52,18 +58,13 @@
 import { ref, reactive } from 'vue'
 import { supabase } from '../utils/supabase'
 import { getClientIP } from '../utils/ip'
-import data from '../data/yeji_A.json'
-import filedict from '../../public/file_path.json'
+import data from '../data/bangongshi.json'
 
 const DEPT = data.deptName
 const techPersons = data.technicalStaff
 const managePersons = data.managementStaff
 
 // 初始化评分数据
-const tech = reactive({})
-const techTotal = reactive({})
-techPersons.forEach(n => tech[n] = { moral:0, work_style:0, responsibility:0, integrity:0 })
-techPersons.forEach(n => techTotal[n] = 0)
 
 const manage = reactive({})
 const manageTotal = reactive({})
@@ -77,20 +78,17 @@ const submitting = ref(false)
 const msg = ref('')
 const type = ref('')
 
+
 // =============================================
-// 🔥 核心：技术人员分数自动校验（0-25分）
+// 🔥 核心：管理人员分数自动校验（0-10分）
 // =============================================
-const handleTechInput = (name, field) => {
-  // 限制分数范围：0 ≤ 分数 ≤25
-  tech[name][field] = Math.max(0, Math.min(25, tech[name][field] || 0))
-  calcTech(name)
+const handleManageInput = (name, field) => {
+  // 限制分数范围：0 ≤ 分数 ≤10
+  manage[name][field] = Math.max(0, Math.min(10, manage[name][field] || 0))
+  calcManage(name)
 }
 
 // 计算总分（仅展示）
-const calcTech = (name) => {
-  const s = tech[name]
-  techTotal[name] = s.moral + s.work_style + s.responsibility + s.integrity
-}
 const calcManage = (name) => {
   const s = manage[name]
   manageTotal[name] = s.political_ability + s.political_performance + s.party_duty + s.professional + s.leadership + s.innovation + s.performance + s.act + s.style_image + s.integrity_work
@@ -109,11 +107,6 @@ const openReport = (personName) => {
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
-    // console.log(filedict) // 调试用，可删除
-    // console.log(currentPerson)
-    // console.log(currentPerson.value)
-    // console.log(filedict[currentPerson])
-    // console.log(filedict[currentPerson.value])
     pdfUrl.value = `${base}/${filedict[currentPerson.value]}#toolbar=0&navpanes=0&scrollbar=1`
 
     console.log('PDF地址：', pdfUrl.value) // 调试用，可删除
@@ -141,12 +134,6 @@ const submitAll = async () => {
     // =============================================
     // 🔥 核心新增：禁止任何人员打满分（总分=100 阻止提交）
     // =============================================
-    // 检查专业技术人员
-    for (const n of techPersons) {
-      if (techTotal[n] === 100) {
-        throw new Error(`提交失败：【${n}】不能打满分（总分100分），请调整分数！`)
-      }
-    }
     // 检查一般管理人员
     for (const n of managePersons) {
       if (manageTotal[n] === 100) {
@@ -155,21 +142,20 @@ const submitAll = async () => {
     }
 
     // 2. 批量提交至两张独立表（保留）
-    const techData = techPersons.map(n => ({
-      // dept_name: DEPT,
-      person_name: n, ...tech[n],
-      total_score: techTotal[n],
+    const manageData = managePersons.map(n => ({
+      dept_name: DEPT,
+      person_name: n, ...manage[n],
+      total_score: manageTotal[n],
       ip
     }))
-
-    await supabase.from('gcs_scores').insert(techData)
+    await supabase.from('manage_scores').insert(manageData)
 
     msg.value = '提交成功！'
     type.value = 'success'
   } catch (err) {
     msg.value = err.message
     type.value = 'error'
-  } finally {
+  } finally { 
     submitting.value = false
   }
 }
