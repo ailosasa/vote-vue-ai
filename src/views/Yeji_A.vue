@@ -1,52 +1,26 @@
 <template>
   <div class="app-container">
-    <h1>{{ data.deptName }} 综合评价评分</h1>
+    <h1>{一二三级工程师业绩考核</h1>
     <div class="vote-form">
       <div class="form-tip">
         ✅ 专业技术人员：每项 0-25 分 |
-        ✅ 一般管理人员：每项 0-10 分 |
         🚫 同一IP仅可提交1次
       </div>
 
       <!-- 专业技术人员 -->
       <div class="section">
-        <h3>专业技术人员评分</h3>
         <div v-for="name in data.technicalStaff" :key="name" class="person-box">
           <div class="person-header">
             <span>{{ name }}</span>
             <button class="preview-btn" @click="openReport(name)">查看述职报告</button>
           </div>
           <div class="score-items">
-            <div>职业道德<input v-model.number="tech[name].moral" @input="handleTechInput(name, 'moral')" min="0" max="25"></div>
-            <div>工作作风<input v-model.number="tech[name].work_style" @input="handleTechInput(name, 'work_style')" min="0" max="25"></div>
-            <div>担当作为<input v-model.number="tech[name].responsibility" @input="handleTechInput(name, 'responsibility')" min="0" max="25"></div>
-            <div>廉洁自律<input v-model.number="tech[name].integrity" @input="handleTechInput(name, 'integrity')" min="0" max="25"></div>
+            <div>创新引领<input v-model.number="tech[name].moral" @input="handleTechInput(name, 'moral')" min="0" max="25"></div>
+            <div>业务把关<input v-model.number="tech[name].work_style" @input="handleTechInput(name, 'work_style')" min="0" max="25"></div>
+            <div>智囊参谋<input v-model.number="tech[name].responsibility" @input="handleTechInput(name, 'responsibility')" min="0" max="25"></div>
+            <div>人才培养<input v-model.number="tech[name].integrity" @input="handleTechInput(name, 'integrity')" min="0" max="25"></div>
           </div>
           <div class="total">总分：{{ techTotal[name] }}</div>
-        </div>
-      </div>
-
-      <!-- 一般管理人员 -->
-      <div class="section">
-        <h3>一般管理人员评分</h3>
-        <div v-for="name in data.managementStaff" :key="name" class="person-box">
-          <div class="person-header">
-            <span>{{ name }}</span>
-            <button class="preview-btn" @click="openReport(name)">查看述职报告</button>
-          </div>
-          <div class="score-items grid-10">
-            <div>政治能力<input v-model.number="manage[name].political_ability" @input="handleManageInput(name, 'political_ability')" min="0" max="10"></div>
-            <div>政治表现<input v-model.number="manage[name].political_performance" @input="handleManageInput(name, 'political_performance')" min="0" max="10"></div>
-            <div>党建责任<input v-model.number="manage[name].party_duty" @input="handleManageInput(name, 'party_duty')" min="0" max="10"></div>
-            <div>专业素养<input v-model.number="manage[name].professional" @input="handleManageInput(name, 'professional')" min="0" max="10"></div>
-            <div>领导能力<input v-model.number="manage[name].leadership" @input="handleManageInput(name, 'leadership')" min="0" max="10"></div>
-            <div>学习创新<input v-model.number="manage[name].innovation" @input="handleManageInput(name, 'innovation')" min="0" max="10"></div>
-            <div>履职成效<input v-model.number="manage[name].performance" @input="handleManageInput(name, 'performance')" min="0" max="10"></div>
-            <div>担当作为<input v-model.number="manage[name].act" @input="handleManageInput(name, 'act')" min="0" max="10"></div>
-            <div>作风形象<input v-model.number="manage[name].style_image" @input="handleManageInput(name, 'style_image')" min="0" max="10"></div>
-            <div>廉洁从业<input v-model.number="manage[name].integrity_work" @input="handleManageInput(name, 'integrity_work')" min="0" max="10"></div>
-          </div>
-          <div class="total">总分：{{ manageTotal[name] }}</div>
         </div>
       </div>
 
@@ -77,7 +51,8 @@
 import { ref, reactive } from 'vue'
 import { supabase } from '../utils/supabase'
 import { getClientIP } from '../utils/ip'
-import data from '../data/PMT1.json'
+import data from '../data/yeji_A.json'
+import filedict from '../../public/file_path.json'
 
 const DEPT = data.deptName
 const techPersons = data.technicalStaff
@@ -110,15 +85,6 @@ const handleTechInput = (name, field) => {
   calcTech(name)
 }
 
-// =============================================
-// 🔥 核心：管理人员分数自动校验（0-10分）
-// =============================================
-const handleManageInput = (name, field) => {
-  // 限制分数范围：0 ≤ 分数 ≤10
-  manage[name][field] = Math.max(0, Math.min(10, manage[name][field] || 0))
-  calcManage(name)
-}
-
 // 计算总分（仅展示）
 const calcTech = (name) => {
   const s = tech[name]
@@ -139,12 +105,10 @@ const currentPerson = ref('')
 const openReport = (personName) => {
   try {
     currentPerson.value = personName
-    // 标准化部门路径（彻底解决大小写/拼写问题）
-    const deptFolder = `PMT1_shuzhi`
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
-    pdfUrl.value = `${base}/data/${deptFolder}/2025年度工作述职报告（${personName}）.pdf#toolbar=0&navpanes=0&scrollbar=1`
+    pdfUrl.value = `${base}/${filedict[currentPerson]}#toolbar=0&navpanes=0&scrollbar=1`
 
     console.log('PDF地址：', pdfUrl.value) // 调试用，可删除
     showPdfPreview.value = true
@@ -191,15 +155,8 @@ const submitAll = async () => {
       total_score: techTotal[n],
       ip
     }))
-    const manageData = managePersons.map(n => ({
-      dept_name: DEPT,
-      person_name: n, ...manage[n],
-      total_score: manageTotal[n],
-      ip
-    }))
 
-    await supabase.from('tech_scores').insert(techData)
-    await supabase.from('manage_scores').insert(manageData)
+    await supabase.from('gcs_scores').insert(techData)
 
     msg.value = '提交成功！'
     type.value = 'success'

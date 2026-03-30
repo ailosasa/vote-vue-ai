@@ -28,8 +28,8 @@ import Dept_zl from "../views/Dept_zl.vue";
 //import Dept_yja from "../views/yeji_A.vue";
 
 const routes = [
-    { path: '/', redirect: '/a' }, // 默认打开A类票
-    { path: '/a', component: VoteA }, // A类票面
+    { path: '/', redirect: '/dept_PMT1' }, // 默认打开A类票
+    //{ path: '/a', component: VoteA }, // A类票面
     //{ path: '/b', component: VoteB }, // B类票面
     //{ path: '/c', component: VoteC }, // C类票面
     { path: '/dept_PMT1', component: Dept_PMT1 },
