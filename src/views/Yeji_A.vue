@@ -109,6 +109,10 @@ const openReport = (personName) => {
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
     console.log(filedict) // 调试用，可删除
+    console.log(currentPerson)
+    console.log(currentPerson.value)
+    console.log(filedict[currentPerson])
+    console.log(filedict[currentPerson.value])
     pdfUrl.value = `${base}/${filedict[currentPerson]}#toolbar=0&navpanes=0&scrollbar=1`
 
     console.log('PDF地址：', pdfUrl.value) // 调试用，可删除
