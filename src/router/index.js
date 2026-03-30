@@ -27,6 +27,7 @@ import Dept_zh from "../views/Dept_zh.vue";
 import Dept_zl from "../views/Dept_zl.vue";
 import yja from "../views/Yeji_A.vue";
 import ybgla from "../views/Ybgl_A.vue";
+import ybglb from "../views/Ybgl_B.vue";
 
 const routes = [
     { path: '/', redirect: '/dept_PMT1' }, // 默认打开A类票
@@ -54,7 +55,8 @@ const routes = [
     { path: '/dept_zh', component: Dept_zh },
     { path: '/dept_zl', component: Dept_zl },
     { path: '/yja', component: yja },
-    { path: '/ybgla', component: ybgla }
+    { path: '/ybgla', component: ybgla },
+    { path: '/ybglb', component: ybglb }
 ]
 
 const router = createRouter({
