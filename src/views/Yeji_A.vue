@@ -108,7 +108,7 @@ const openReport = (personName) => {
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
-    console.log(pdfUrl.filedict) // 调试用，可删除
+    console.log(filedict) // 调试用，可删除
     pdfUrl.value = `${base}/${filedict[currentPerson]}#toolbar=0&navpanes=0&scrollbar=1`
 
     console.log('PDF地址：', pdfUrl.value) // 调试用，可删除
@@ -151,7 +151,7 @@ const submitAll = async () => {
 
     // 2. 批量提交至两张独立表（保留）
     const techData = techPersons.map(n => ({
-      dept_name: DEPT,
+      // dept_name: DEPT,
       person_name: n, ...tech[n],
       total_score: techTotal[n],
       ip
