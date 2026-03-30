@@ -58,7 +58,8 @@
 import { ref, reactive } from 'vue'
 import { supabase } from '../utils/supabase'
 import { getClientIP } from '../utils/ip'
-import data from '../data/bangongshi.json'
+import data from '../data/ybzg_A.json'
+import filedict from '../../public/file_path.json'
 
 const DEPT = data.deptName
 const techPersons = data.technicalStaff
