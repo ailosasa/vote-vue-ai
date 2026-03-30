@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h1>{一二三级工程师业绩考核</h1>
+    <h1>一二三级工程师业绩考核</h1>
     <div class="vote-form">
       <div class="form-tip">
         ✅ 专业技术人员：每项 0-25 分 |
@@ -108,6 +108,7 @@ const openReport = (personName) => {
 
     // 生成标准PDF地址（Vercel 100%兼容）
     const base = window.location.origin
+    console.log(pdfUrl.filedict) // 调试用，可删除
     pdfUrl.value = `${base}/${filedict[currentPerson]}#toolbar=0&navpanes=0&scrollbar=1`
 
     console.log('PDF地址：', pdfUrl.value) // 调试用，可删除

@@ -25,7 +25,7 @@ import Dept_sc from "../views/Dept_sc.vue";
 import Dept_sj from "../views/Dept_sj.vue";
 import Dept_zh from "../views/Dept_zh.vue";
 import Dept_zl from "../views/Dept_zl.vue";
-import Dept_yja from "../views/Yeji_A.vue";
+import yja from "../views/Yeji_A.vue";
 
 const routes = [
     { path: '/', redirect: '/dept_PMT1' }, // 默认打开A类票
@@ -52,7 +52,7 @@ const routes = [
     { path: '/dept_sj', component: Dept_sj },
     { path: '/dept_zh', component: Dept_zh },
     { path: '/dept_zl', component: Dept_zl },
-    { path: '/dept_yja', component: Dept_yja }
+    { path: '/yja', component: yja }
 ]
 
 const router = createRouter({

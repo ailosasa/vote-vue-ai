@@ -20,8 +20,8 @@ def analyze_vote_data():
     ]
 
     try:
-        # 读取原始投票数据
-        with open(input_file, "r", encoding="utf-8") as f:
+        # 读取原始投票数据 → ✅ 修复：编码改为 gbk
+        with open(input_file, "r", encoding="gbk") as f:
             reader = csv.reader(f)
             next(reader)  # 跳过表头
 
