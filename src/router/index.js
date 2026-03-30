@@ -58,7 +58,7 @@ const routes = [
     { path: '/dept_zl', component: Dept_zl },
     { path: '/yja', component: yja },
     { path: '/ybgla', component: ybgla },
-    { path: '/ybglb', component: ybglb }
+    { path: '/ybglb', component: ybglb },
     { path: '/zsgla', component: zsgla },
     { path: '/zsglb', component: zsglb }
 ]
