@@ -32,35 +32,35 @@ import zsgla from "../views/Zsgl_A.vue";
 import zsglb from "../views/Zsgl_B.vue";
 
 const routes = [
-    { path: '/', redirect: '/dept_PMT1' }, // 默认打开A类票
+    // { path: '/', redirect: '/dept_PMT1' }, // 默认打开A类票
     //{ path: '/a', component: VoteA }, // A类票面
     //{ path: '/b', component: VoteB }, // B类票面
     //{ path: '/c', component: VoteC }, // C类票面
-    { path: '/dept_PMT1', component: Dept_PMT1 },
-    { path: '/dept_PMT2', component: Dept_PMT2 },
-    { path: '/dept_PMT3', component: Dept_PMT3 },
-    { path: '/dept_PMT4', component: Dept_PMT4 },
-    { path: '/dept_PMT5', component: Dept_PMT5 },
-    // { path: '/dept_PMT6', component: Dept_PMT6 },
-    { path: '/dept_PMT7', component: Dept_PMT7 },
-    { path: '/dept_HSE', component: Dept_HSE },
-    { path: '/dept_bgs', component: Dept_bgs },
-    { path: '/dept_cg', component: Dept_cg },
-    { path: '/dept_cw', component: Dept_cw },
-    { path: '/dept_gc', component: Dept_gc },
-    { path: '/dept_jdy', component: Dept_jdy },
-    { path: '/dept_jw', component: Dept_jw },
-    { path: '/dept_kz', component: Dept_kz },
-    { path: '/dept_rl', component: Dept_rl },
-    { path: '/dept_sc', component: Dept_sc },
-    { path: '/dept_sj', component: Dept_sj },
-    { path: '/dept_zh', component: Dept_zh },
-    { path: '/dept_zl', component: Dept_zl },
-    { path: '/yja', component: yja },
-    { path: '/ybgla', component: ybgla },
-    { path: '/ybglb', component: ybglb },
-    { path: '/zsgla', component: zsgla },
-    { path: '/zsglb', component: zsglb }
+    // { path: '/dept_PMT1', component: Dept_PMT1 },
+    // { path: '/dept_PMT2', component: Dept_PMT2 },
+    // { path: '/dept_PMT3', component: Dept_PMT3 },
+    // { path: '/dept_PMT4', component: Dept_PMT4 },
+    // { path: '/dept_PMT5', component: Dept_PMT5 },
+    // // { path: '/dept_PMT6', component: Dept_PMT6 },
+    // { path: '/dept_PMT7', component: Dept_PMT7 },
+    // { path: '/dept_HSE', component: Dept_HSE },
+    // { path: '/dept_bgs', component: Dept_bgs },
+    // { path: '/dept_cg', component: Dept_cg },
+    // { path: '/dept_cw', component: Dept_cw },
+    // { path: '/dept_gc', component: Dept_gc },
+    // { path: '/dept_jdy', component: Dept_jdy },
+    // { path: '/dept_jw', component: Dept_jw },
+    // { path: '/dept_kz', component: Dept_kz },
+    // { path: '/dept_rl', component: Dept_rl },
+    // { path: '/dept_sc', component: Dept_sc },
+    // { path: '/dept_sj', component: Dept_sj },
+    // { path: '/dept_zh', component: Dept_zh },
+    // { path: '/dept_zl', component: Dept_zl },
+    // { path: '/yja', component: yja },
+    // { path: '/ybgla', component: ybgla },
+    // { path: '/ybglb', component: ybglb },
+    // { path: '/zsgla', component: zsgla },
+    // { path: '/zsglb', component: zsglb }
 ]
 
 const router = createRouter({
